@@ -34,7 +34,7 @@ jscoverage_SOURCES = encoding.c encoding.h \
                      highlight.c highlight.h \
                      instrument.c instrument.h \
                      instrument-js.cpp instrument-js.h \
-                     jscoverage.c global.h \
+                     jscoverage.cpp global.h \
                      resource-manager.c resource-manager.h \
                      stream.c stream.h \
                      util.c util.h \
