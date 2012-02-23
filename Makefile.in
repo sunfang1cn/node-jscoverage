@@ -37,7 +37,7 @@ ifeq ($(NODE_PATH),)
 endif
 
 ifeq ($(EXTRA_CXXFLAGS),)
-	EXTRA_CXXFLAGS = -I/usr/include/nodejs
+	EXTRA_CXXFLAGS = -I /usr/include/nodejs -g -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wall
 endif
 ##########
 VPATH = @srcdir@
@@ -104,14 +104,14 @@ DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) $(EXTRA_CXXFLAGS)
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) $(EXTRA_CXXFLAGS) -fPIC
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(EXTRA_CXXFLAGS)
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) $(EXTRA_CXXFLAGS) -fPIC
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-shared -o $@
+	-shared -fPic -o $@
 SOURCES = $(generate_resources_SOURCES) $(jscoverage_SOURCES) \
 	$(jscoverage_server_SOURCES)
 DIST_SOURCES = $(generate_resources_SOURCES) $(jscoverage_SOURCES) \

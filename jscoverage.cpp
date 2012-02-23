@@ -204,26 +204,25 @@ char * proc_msg_string(char * mesg, int type) {
     return req;
 }
 
-class Jscoverage: ObjectWrap
+class Jscoverage : public ObjectWrap
 {
 private:
     int m_count;
 public:
 
-    static Persistent<FunctionTemplate> s_ct;
     static void Init(Handle<Object> target)
     {
         HandleScope scope;
 
         Local<FunctionTemplate> t = FunctionTemplate::New(New);
 
-        s_ct = Persistent<FunctionTemplate>::New(t);
+        Persistent<FunctionTemplate> s_ct = Persistent<FunctionTemplate>::New(t);
         s_ct->InstanceTemplate()->SetInternalFieldCount(1);
-        s_ct->SetClassName(String::NewSymbol("jscoverage"));
+        s_ct->SetClassName(String::NewSymbol("Jscoverage"));
 
         NODE_SET_PROTOTYPE_METHOD(s_ct, "doDirSync", doSync);
 
-        target->Set(String::NewSymbol("jscoverage"),
+        target->Set(String::NewSymbol("Jscoverage"),
                     s_ct->GetFunction());
     }
 
@@ -290,14 +289,10 @@ public:
 
 };
 
-Persistent<FunctionTemplate> Jscoverage::s_ct;
 
-extern "C" {
-    static void init (Handle<Object> target)
-    {
-        Jscoverage::Init(target);
-    }
 
-    NODE_MODULE(Jscoverage, init);
+extern "C" void init (Handle<Object> target) {
+      HandleScope scope;
+      Jscoverage::Init(target);
 }
 //end for node v8
