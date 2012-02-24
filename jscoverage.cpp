@@ -27,6 +27,8 @@
 extern "C" {
 #include "instrument.h"
 #include "instrument-js.h"
+#include "encoding.h"
+#include "stream.h"
 }
 #include "resource-manager.h"
 #include "util.h"
@@ -34,6 +36,8 @@ extern "C" {
 //for node v8
 #include <v8.h>
 #include <node.h>
+#include <node_buffer.h>
+
 using namespace std;
 using namespace node;
 using namespace v8;
@@ -49,6 +53,12 @@ if (args.Length() <= (I) || !args[I]->IsString()) \
 return ThrowException(Exception::TypeError( \
 String::New("Argument " #I " must be a String"))); \
 Local<String> VAR = Local<String>::Cast(args[I]);
+
+#define REQ_OBJ_ARG(I, VAR) \
+if (args.Length() <= (I) || !args[I]->IsObject()) \
+return ThrowException(Exception::TypeError( \
+String::New("Argument " #I " must be an Object"))); \
+Local<Object> VAR = args[I]->ToObject();
 //end for node v8
 
 const char * jscoverage_encoding = "ISO-8859-1";
@@ -107,6 +117,7 @@ public:
         s_ct->SetClassName(String::NewSymbol("Jscoverage"));
 
         NODE_SET_PROTOTYPE_METHOD(s_ct, "doDirSync", doSync);
+        NODE_SET_PROTOTYPE_METHOD(s_ct, "doBufferSync", doBufferSync);
 
         target->Set(String::NewSymbol("Jscoverage"),
                     s_ct->GetFunction());
@@ -128,7 +139,53 @@ public:
         hw->Wrap(args.This());
         return args.This();
     }
+    
+    static Handle<Value> doBufferSync(const Arguments& args)
+    {
+      HandleScope scope;
+      REQ_STR_ARG(2, fname);
+      REQ_STR_ARG(1, text_enc);
+      REQ_OBJ_ARG(0, bobj);
+      String::AsciiValue _encoding(text_enc);
+      String::AsciiValue _fname(fname);
+      char * _buf = Buffer::Data(bobj);
+      size_t buf_len = Buffer::Length(bobj);
+      
+      
+      Stream * input_stream = Stream_new(0);
+      Stream * output_stream = Stream_new(0);
+      
+      Stream_write(input_stream, _buf, buf_len);
+      
+      size_t num_characters = input_stream->length;
+      uint16_t * characters = NULL;
+      int result = jscoverage_bytes_to_characters(*_encoding, input_stream->data, input_stream->length, &characters, &num_characters);
+      if (result == JSCOVERAGE_ERROR_ENCODING_NOT_SUPPORTED) {
+          fatal("encoding %s not supported", *_encoding);
+      }
+      else if (result == JSCOVERAGE_ERROR_INVALID_BYTE_SEQUENCE) {
+          fatal("error decoding %s in file %s", *_encoding, *_fname);
+      }
 
+      jscoverage_init();
+      jscoverage_instrument_js(*_fname, characters, num_characters, output_stream);
+      jscoverage_cleanup();
+      free(characters);
+
+      char * output_buffer = (char *)malloc(output_stream->length);
+      size_t out_len = output_stream->length;
+      memcpy(output_buffer, output_stream->data, output_stream->length);
+      Stream_delete(input_stream);
+      Stream_delete(output_stream);
+      
+      v8::Local<v8::Object> globalObj = v8::Context::GetCurrent()->Global();
+      v8::Local<v8::Function> bufferConstructor = v8::Local<v8::Function>::Cast(globalObj->Get(v8::String::New("Buffer")));
+      v8::Handle<v8::Value> constructorArgs[3] = { Buffer::New(output_buffer, out_len)->handle_, v8::Integer::New(out_len), v8::Integer::New(0) };
+      v8::Local<v8::Object> actualBuffer = bufferConstructor->NewInstance(3, constructorArgs);
+      
+      return scope.Close(actualBuffer);
+    }
+    
     static Handle<Value> doSync(const Arguments& args)
     {
       HandleScope scope;
@@ -150,9 +207,9 @@ public:
       strcat(reqstr, *_source);
       strcat(reqstr, " ");
       strcat(reqstr, *_dest);
-      strcat(reqstr, *_exclude);
-      strcat(reqstr, *_no_inst);
-      strcat(reqstr, *_options);
+      strcat(reqstr, proc_msg_string(*_exclude, 1));
+      strcat(reqstr, proc_msg_string(*_no_inst, 2));
+      strcat(reqstr, proc_msg_string(*_options, 0));
 
       strcpy(argv[0], "jscoverage");
       int argc = 1;
