@@ -1,6 +1,6 @@
 {
   "author": "Based on jscoverage@siliconforks.com; Modified by kate.sf <kate.sf@taobao.com>",
-  "name": "node_jscoverage",
+  "name": "jscoverage",
   "description": "jscoverage module for node.js",
   "version": "0.0.1",
   "homepage": "https://github.com/sunfang1cn/node-jscoverage",
