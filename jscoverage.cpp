@@ -166,7 +166,8 @@ public:
       else if (result == JSCOVERAGE_ERROR_INVALID_BYTE_SEQUENCE) {
           fatal("error decoding %s in file %s", *_encoding, *_fname);
       }
-
+      
+      jscoverage_highlight = false;
       jscoverage_init();
       jscoverage_instrument_js(*_fname, characters, num_characters, output_stream);
       jscoverage_cleanup();
