@@ -37,7 +37,7 @@ ifeq ($(NODE_PATH),)
 endif
 
 ifeq ($(EXTRA_CXXFLAGS),)
-	EXTRA_CXXFLAGS = -I /usr/include/nodejs -g -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wall
+	EXTRA_CXXFLAGS = -I $(NODE_INCLUDE) -g -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wall
 endif
 ##########
 VPATH = @srcdir@

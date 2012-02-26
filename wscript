@@ -3,13 +3,11 @@ import sys
 
 def make(ctx, rule):
 	node_path = ctx.env['CPPPATH_NODE']
-	if isinstance(node_path, basestring):
-		node_path = [node_path]
 
 	bin = './build.sh'
 	cmd = 'export NODE_INCLUDE="%s"&&%s' % (node_path, bin)
 	os.system(cmd)
-	os.system(bin)
+	os.system(cmd)
 
 def set_options(ctx):
 	pass
