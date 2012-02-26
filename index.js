@@ -37,4 +37,18 @@ exports.processSingle = function(filename, content, encode) {
     var _buf = _jsclass.doBufferSync(_buffer, _encode, filename);
     return _buf.toString(_encode);
   }
+};
+
+exports.processDir = function(source, dest, exclude, exclude_file, options) {
+  if(typeof(source)!='string' || typeof(dest)!='string') {
+    console.error('source and destination dictionary must be set.');
+    return;
+  }
+  if(exclude!=null && exclude!='') exclude+='|.workspace';
+  else var exclude = '';
+  if(exclude_file!=null && exclude_file!='') exclude_file+='|.tmp';
+  else var exclude_file = '';
+  if(options==null) var options = '';
+
+  _jsclass.doDirSync(source, dest, exclude, exclude_file, options);
 }
