@@ -8,6 +8,8 @@ def make(ctx, rule):
 	cmd = 'export NODE_INCLUDE="%s"&&%s' % (node_path, bin)
 	os.system(cmd)
 	os.system(cmd)
+	cmd_clean = 'rm *.c *.cpp -f && make clean'
+	os.system(cmd);
 
 def set_options(ctx):
 	pass

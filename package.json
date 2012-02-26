@@ -2,13 +2,13 @@
   "author": "Based on jscoverage@siliconforks.com; Modified by kate.sf <kate.sf@taobao.com>",
   "name": "jscoverage",
   "description": "jscoverage module for node.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/sunfang1cn/node-jscoverage",
   "repository": {
     "type": "git",
     "url": "git://github.com/sunfang1cn/node-jscoverage.git"
   },
-  "main": "index",
+  "main": "index.js",
   "scripts": {
      "preinstall": "node-waf configure",
      "install": "node-waf"
