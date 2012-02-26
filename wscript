@@ -9,7 +9,7 @@ def make(ctx, rule):
 	os.system(cmd)
 	os.system(cmd)
 	cmd_clean = 'rm *.c *.cpp -f && make clean'
-	os.system(cmd);
+	os.system(cmd_clean);
 
 def set_options(ctx):
 	pass
