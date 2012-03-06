@@ -246,8 +246,13 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = js
-AM_CFLAGS = -Ijs -Ijs/obj @XP_DEF@
-AM_CXXFLAGS = -Ijs -Ijs/obj @XP_DEF@
+ifeq ($(UNAME),Darwin)
+	AM_CFLAGS = -Ijs -Ijs/obj -flat_namespace -undefined suppress @XP_DEF@
+	AM_CXXFLAGS = -Ijs -Ijs/obj -flat_namespace -undefined suppress @XP_DEF@
+else
+	AM_CFLAGS = -Ijs -Ijs/obj @XP_DEF@
+	AM_CXXFLAGS = -Ijs -Ijs/obj @XP_DEF@
+endif
 resources = jscoverage-help.txt jscoverage-server-help.txt \
             jscoverage.jsm jscoverage.manifest jscoverage.xul jscoverage-overlay.js \
             jscoverage.html \
