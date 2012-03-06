@@ -41,6 +41,7 @@ ifeq ($(EXTRA_CXXFLAGS),)
 endif
 ##########
 VPATH = @srcdir@
+UNAME := $(shell uname)
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
