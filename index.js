@@ -90,12 +90,14 @@ exports.require = function(mo){
         filename = Module._resolveFilename(filename, this);
         if(typeof(filename)==='object') filename = filename[0];
         var module = new Module(filename, this);
+/**
         var cachedModule = Module._cache[filename];
         if (cachedModule) {
             return cachedModule.exports;
         }
 
         Module._cache[filename] = module;
+**/
         try {
             module.load(filename);
             module.filename = filename;
