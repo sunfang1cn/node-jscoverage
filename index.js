@@ -98,6 +98,7 @@ exports.require = function(mo){
 
         Module._cache[filename] = module;
 **/
+        Module._cache[filename] = module;
         try {
             module.load(filename);
             module.filename = filename;
