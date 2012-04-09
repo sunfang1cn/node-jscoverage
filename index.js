@@ -124,6 +124,25 @@ exports.require = function(mo) {
     var self = this;
     // remove shebang
     content = content.replace(/^\#\!.*/, '');
+    
+    // inject exports: _test(func,params) ,_get(func) 
+    content += '\n\
+      exports._test = function(func,args){\
+        var f,o;\
+        if(func.match(/\\./)){\
+          func = func.split(".");\
+          f = func[func.length-1];\
+          func.pop();\
+          o = func.join(".");\
+        }else{\
+          f = func;\
+          o = "this";\
+        }\
+        return eval(f+".apply(" + o + "," + JSON.stringify(args) + ")");\
+      };\
+      exports._get = function(objstr){\
+      return eval(objstr);\
+      };';
 
     if (this.needjsc) {
       content = exports.processFile(filename,'utf-8');
