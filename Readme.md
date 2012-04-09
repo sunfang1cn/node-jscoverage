@@ -10,7 +10,8 @@
       /** for nodejs **/
       var jsc = require('jscoverage');
       require = jsc.require(module); // rewrite require function
-      var test_module = require('module for test',true); // pay attention to the second param, means do jscoverage process for this module
+      // pay attention to the second param, means do jscoverage process for this module
+      var test_module = require('module for test',true); 
       
       describe('module',function(){
          describe('#func',function(){
