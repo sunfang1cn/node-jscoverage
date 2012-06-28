@@ -122,6 +122,10 @@ exports.require = function(mo) {
 
   Module.prototype._compile = function(content, filename) {
     var self = this;
+    var _call = _inject_functions['call'];
+    var _test = _inject_functions['test'];
+    var _get = _inject_functions['get'];
+    var _replace = _inject_functions['replace'];
     // remove shebang
     content = content.replace(/^\#\!.*/, '');
     
@@ -129,22 +133,30 @@ exports.require = function(mo) {
       content = exports.processFile(filename,'utf-8');
       // inject exports: _test(func,params) ,_get(func) 
       content += '\n\
-        module.exports._test = function(func,args){\
-          var f,o;\
-          if(func.match(/\\./)){\
-            func = func.split(".");\
-            f = func[func.length-1];\
-            func.pop();\
-            o = func.join(".");\
-          }else{\
-            f = func;\
-            o = "this";\
-          }\
-          return eval(f+".apply(" + o + "," + JSON.stringify(args) + ")");\
-        };\
-        exports._get = function(objstr){\
-        return eval(objstr);\
-        };';
+        if( module.exports.'+_call+' || module.exports.'+_test+' || module.exports.'+_get+' || module.exports.'+_replace+' ){\
+          console.log("[WARN] jscoverage call not inject function for this module,because the function is exists! using jsc.config({inject:{}})");\
+        }else{\
+          module.exports.' + _replace + ' = function(name,obj){\
+            function stringify(obj){if(obj === null) return \'null\';if(obj === undefined ) return \'undefined\';if(!obj && isNaN(obj)) return \'NaN\';if(typeof obj == \'string\'){return \'"\'+obj.replac    e(/"/g,\'\\"\') + \'"\';}if(typeof obj == \'Number\'){return obj;}if(obj.constructor == Date){return \'new Date(\'+obj.getTime()+\')\';}if(obj.constructor == Function){return obj.toString();}var is_array     = obj.constructor == Array ? true : false;var res;if(is_array){res = [\'[\'];for( var i = 0 ; i < obj.length ; i++ ){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\']\');    }else{res = [\'{\'];for(var i in obj){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\'}\');}return res.join(\'\');}\
+            eval(name+"="+stringify(obj))\
+          };\
+          module.exports.'+_call+' = module.exports.'+_test+' = function(func,args){\
+            var f,o;\
+            if(func.match(/\\./)){\
+              func = func.split(".");\
+              f = func[func.length-1];\
+              func.pop();\
+              o = func.join(".");\
+            }else{\
+              f = func;\
+              o = "this";\
+            }\
+            return eval(f+".apply(" + o + "," + JSON.stringify(args) + ")");\
+          };\
+          exports.'+_get+' = function(objstr){\
+          return eval(objstr);\
+          };\
+        }';
     }
 
 
@@ -297,4 +309,19 @@ exports.coverage = function() {
     );
   }
   console.log("\n  --EOF--\n");
+};
+
+/**
+ config the inject function
+ **/
+var _inject_functions = {
+  get : '_get',
+  replace : '_replace',
+  test : '_test',
+  call : '_call'
+};
+exports.config = function(obj){
+  for(var i in obj.inject){
+    _inject_functions[i] = obj.inject[i];
+  }
 };
