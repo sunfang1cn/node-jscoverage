@@ -4,6 +4,7 @@
 
 ## Installation
    for use in node.js modules:
+      
       $ npm  install jscoverage
   
    for use by binary executables just like the source version, just pull it to local and:
@@ -58,7 +59,7 @@
       jscoverage.require(module, flag): automatic process when flag is true, will mock the node.js`s require
 
       jscoverage.coverage(): show coverage rate on console
-      1
+      
 ## test private functions in a module
 
       ======== mo.js ========
