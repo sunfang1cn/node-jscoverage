@@ -5,7 +5,9 @@
 ## Installation
    for use in node.js modules:
       $ npm  install jscoverage
+  
    for use by binary executables just like the source version, just pull it to local and:
+      
       $ ./configure && make && make install
 
 ## How to Use
@@ -48,15 +50,15 @@
          encode: the charset of the file or content
 
       jscoverage.processDir(source_path, dest_path, exclude, exclude_file, options): process every js file in a dir
-	 source_path: the dir to process
-	 dest_path: the output dir to put result files
-	 exclude: the dir to exclude
-	 exclude_file: the file to exclude
+         source_path: the dir to process
+         dest_path: the output dir to put result files
+         exclude: the dir to exclude
+         exclude_file: the file to exclude
 
       jscoverage.require(module, flag): automatic process when flag is true, will mock the node.js`s require
 
       jscoverage.coverage(): show coverage rate on console
-      
+      1
 ## test private functions in a module
 
       ======== mo.js ========
