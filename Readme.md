@@ -46,9 +46,11 @@
    
 ## API
 
-      jscoverage.processFile(path|content, encode): process single file or some js content, will return the process results
-         path | content: the file to process or the content to process
+      jscoverage.processFile(path, encode): process single file, will return the process results
+         path: the file to process
          encode: the charset of the file or content
+
+      jscoverage.process(content, encode): process content input, will return the results
 
       jscoverage.processDir(source_path, dest_path, exclude, exclude_file, options): process every js file in a dir
          source_path: the dir to process
