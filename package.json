@@ -2,7 +2,7 @@
   "author": "Based on jscoverage@siliconforks.com; Modified by kate.sf <kate.sf@taobao.com>",
   "name": "jscoverage",
   "description": "jscoverage module for node.js",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "homepage": "https://github.com/sunfang1cn/node-jscoverage",
   "repository": {
     "type": "git",
