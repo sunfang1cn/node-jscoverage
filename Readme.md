@@ -1,11 +1,16 @@
 # node-jscoverage
 
-   [JScoverage](http://siliconforks.com/jscoverage/) for node.
+   [JScoverage](http://siliconforks.com/jscoverage/) for node. Have been Modified to works both for binary executables and node.js modules.
 
 ## Installation
-
+   for use in node.js modules:
+      
       $ npm  install jscoverage
-    
+  
+   for use by binary executables just like the source version, just pull it to local and:
+      
+      $ ./configure && make && make install
+
 ## How to Use
       /** for nodejs **/
       var jsc = require('jscoverage');
@@ -41,12 +46,19 @@
    
 ## API
 
-      jsc.processFile(path|content,encode);
-         path | content 待转化的文件地址，或文件内容
-         encode 文件编码
-      jsc.processDir(source_path, dest_path, exclude, exclude_file, options);
-      jsc.require(module)
-      jsc.coverage()
+      jscoverage.processFile(path|content, encode): process single file or some js content, will return the process results
+         path | content: the file to process or the content to process
+         encode: the charset of the file or content
+
+      jscoverage.processDir(source_path, dest_path, exclude, exclude_file, options): process every js file in a dir
+         source_path: the dir to process
+         dest_path: the output dir to put result files
+         exclude: the dir to exclude
+         exclude_file: the file to exclude
+
+      jscoverage.require(module, flag): automatic process when flag is true, will mock the node.js`s require
+
+      jscoverage.coverage(): show coverage rate on console
       
 ## test private functions in a module
 
