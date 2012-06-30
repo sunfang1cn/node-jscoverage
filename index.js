@@ -13,7 +13,7 @@ var Script = process.binding('evals').NodeScript;
 var runInThisContext = Script.runInThisContext;
 var runInNewContext = Script.runInNewContext;
 
-exports.process = function(filename, content, encode) {
+exports.process = function(content, encode) {
   if(encode!=null && typeof(encode)==='string')
     var _encode = encode;
   else
@@ -29,12 +29,8 @@ exports.process = function(filename, content, encode) {
     console.error('content is required.');
     return null;
   }
-  if(filename==null || typeof(filename)!='string') {
-    console.error('filename is required.');
-    return null;
-  }
 
-  var _buf = _jsclass.doBufferSync(_content, _encode, filename);
+  var _buf = _jsclass.doBufferSync(_content, _encode, '');
   return _buf.toString(_encode);
 };
 
@@ -137,7 +133,7 @@ exports.require = function(mo) {
           console.log("[WARN] jscoverage call not inject function for this module,because the function is exists! using jsc.config({inject:{}})");\
         }else{\
           module.exports.' + _replace + ' = function(name,obj){\
-            function stringify(obj){if(obj === null) return \'null\';if(obj === undefined ) return \'undefined\';if(!obj && isNaN(obj)) return \'NaN\';if(typeof obj == \'string\'){return \'"\'+obj.replac    e(/"/g,\'\\"\') + \'"\';}if(typeof obj == \'Number\'){return obj;}if(obj.constructor == Date){return \'new Date(\'+obj.getTime()+\')\';}if(obj.constructor == Function){return obj.toString();}var is_array     = obj.constructor == Array ? true : false;var res;if(is_array){res = [\'[\'];for( var i = 0 ; i < obj.length ; i++ ){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\']\');    }else{res = [\'{\'];for(var i in obj){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\'}\');}return res.join(\'\');}\
+            function stringify(obj){if(obj === null) return \'null\';if(obj === undefined ) return \'undefined\';if(!obj && isNaN(obj)) return \'NaN\';if(typeof obj == \'string\'){return \'"\'+obj.replace(/"/g,\'\\"\') + \'"\';}if(typeof obj == \'Number\'){return obj;}if(obj.constructor == Date){return \'new Date(\'+obj.getTime()+\')\';}if(obj.constructor == Function){return obj.toString();}var is_array     = obj.constructor == Array ? true : false;var res;if(is_array){res = [\'[\'];for( var i = 0 ; i < obj.length ; i++ ){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\']\');    }else{res = [\'{\'];for(var i in obj){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\'}\');}return res.join(\'\');}\
             eval(name+"="+stringify(obj))\
           };\
           module.exports.'+_call+' = module.exports.'+_test+' = function(func,args){\
