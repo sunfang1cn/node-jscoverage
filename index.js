@@ -13,7 +13,7 @@ var Script = process.binding('evals').NodeScript;
 var runInThisContext = Script.runInThisContext;
 var runInNewContext = Script.runInNewContext;
 
-exports.process = function(content, encode) {
+exports.process = function(filename,content, encode) {
   if(encode!=null && typeof(encode)==='string')
     var _encode = encode;
   else
@@ -24,13 +24,16 @@ exports.process = function(content, encode) {
     var _content = content;
   if(content!=null && typeof(content)==='string')
     var _content = new Buffer(content, _encode);
-
+  if(!filename){
+    console.error('filename is required');
+    return null;
+  }
   if(_content==null) {
     console.error('content is required.');
     return null;
   }
 
-  var _buf = _jsclass.doBufferSync(_content, _encode, '');
+  var _buf = _jsclass.doBufferSync(_content, _encode, filename);
   return _buf.toString(_encode);
 };
 

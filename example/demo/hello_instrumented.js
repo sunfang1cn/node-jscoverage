@@ -3,28 +3,75 @@ if (typeof _$jscoverage === 'undefined') _$jscoverage = {};
 if (! _$jscoverage['./demo/hello.js']) {
   _$jscoverage['./demo/hello.js'] = [];
   _$jscoverage['./demo/hello.js'][1] = 0;
-  _$jscoverage['./demo/hello.js'][3] = 0;
+  _$jscoverage['./demo/hello.js'][2] = 0;
   _$jscoverage['./demo/hello.js'][4] = 0;
-  _$jscoverage['./demo/hello.js'][7] = 0;
+  _$jscoverage['./demo/hello.js'][5] = 0;
   _$jscoverage['./demo/hello.js'][8] = 0;
-  _$jscoverage['./demo/hello.js'][11] = 0;
+  _$jscoverage['./demo/hello.js'][9] = 0;
   _$jscoverage['./demo/hello.js'][12] = 0;
+  _$jscoverage['./demo/hello.js'][13] = 0;
+  _$jscoverage['./demo/hello.js'][16] = 0;
+  _$jscoverage['./demo/hello.js'][17] = 0;
+  _$jscoverage['./demo/hello.js'][18] = 0;
+  _$jscoverage['./demo/hello.js'][19] = 0;
+  _$jscoverage['./demo/hello.js'][21] = 0;
+  _$jscoverage['./demo/hello.js'][23] = 0;
+  _$jscoverage['./demo/hello.js'][27] = 0;
+  _$jscoverage['./demo/hello.js'][28] = 0;
+  _$jscoverage['./demo/hello.js'][29] = 0;
+  _$jscoverage['./demo/hello.js'][30] = 0;
+  _$jscoverage['./demo/hello.js'][31] = 0;
+  _$jscoverage['./demo/hello.js'][34] = 0;
 }
 _$jscoverage['./demo/hello.js'][1]++;
 var HELLO = ["o", "l", "l", "e", "h"];
-_$jscoverage['./demo/hello.js'][3]++;
-export.hello = (function () {
-  _$jscoverage['./demo/hello.js'][4]++;
+_$jscoverage['./demo/hello.js'][2]++;
+var DB;
+_$jscoverage['./demo/hello.js'][4]++;
+exports.hello = (function () {
+  _$jscoverage['./demo/hello.js'][5]++;
   return HELLO.reverse().join("");
 });
-_$jscoverage['./demo/hello.js'][7]++;
-export.help = (function () {
-  _$jscoverage['./demo/hello.js'][8]++;
-  return "@\u67d0mm:Tonight go party,I'm a sexy girl.I sometimes good sometimes bad\uff0cthis is me,you don't like me you can get out\uff01";
+_$jscoverage['./demo/hello.js'][8]++;
+exports.msg = (function () {
+  _$jscoverage['./demo/hello.js'][9]++;
+  return "@gmm:Tonight go party,I'm a sexy girl.I sometimes good sometimes bad\uff0cthis is me,you don't like me you can get out\uff01";
 });
-_$jscoverage['./demo/hello.js'][11]++;
-export.translate = (function () {
-  _$jscoverage['./demo/hello.js'][12]++;
+_$jscoverage['./demo/hello.js'][12]++;
+exports.translate = (function () {
+  _$jscoverage['./demo/hello.js'][13]++;
   return "@\u70ed\u5fc3\u7f51\u53cb\u7ffb\u8bd1\uff1a\u5b50\u65f6\u8d8b\u515a\u90e8\uff0c\u59be\u672c\u662f\u6027\u5974\uff1b\u95f4\u6216\u6709\u826f\u8fd0\uff0c\u95f4\u6216\u827a\u7a0d\u758f\uff1b\u672c\u8272\u65b9\u662f\u6211\uff0c\u4efb\u541b\u6765\u53bb\u5982\u3002";
 });
-_$jscoverage['./demo/hello.js'].source = ["var HELLO = ['o','l','l','e','h'];","","export.hello = function(){","  return HELLO.reverse().join('');","};","","export.help = function(){","  return '@&#26576;mm:Tonight go party,I\\'m a sexy girl.I sometimes good sometimes bad&#65292;this is me,you don\\'t like me you can get out&#65281;';","};","","export.translate = function(){","  return '@&#28909;&#24515;&#32593;&#21451;&#32763;&#35793;&#65306;&#23376;&#26102;&#36235;&#20826;&#37096;&#65292;&#22974;&#26412;&#26159;&#24615;&#22900;&#65307;&#38388;&#25110;&#26377;&#33391;&#36816;&#65292;&#38388;&#25110;&#33402;&#31245;&#30095;&#65307;&#26412;&#33394;&#26041;&#26159;&#25105;&#65292;&#20219;&#21531;&#26469;&#21435;&#22914;&#12290;'","};"];
+_$jscoverage['./demo/hello.js'][16]++;
+exports.save = (function (name, cb) {
+  _$jscoverage['./demo/hello.js'][17]++;
+  DB.save(name, (function (err, data) {
+  _$jscoverage['./demo/hello.js'][18]++;
+  if (err) {
+    _$jscoverage['./demo/hello.js'][19]++;
+    err = new Error("db save error!!!");
+  }
+  else {
+    _$jscoverage['./demo/hello.js'][21]++;
+    data = process(data);
+  }
+  _$jscoverage['./demo/hello.js'][23]++;
+  cb(err, data);
+}));
+});
+_$jscoverage['./demo/hello.js'][27]++;
+function process(data) {
+  _$jscoverage['./demo/hello.js'][28]++;
+  console.log(data);
+  _$jscoverage['./demo/hello.js'][29]++;
+  data.forEach((function (v, i, a) {
+  _$jscoverage['./demo/hello.js'][30]++;
+  if (v.date >= "2012-01-01") {
+    _$jscoverage['./demo/hello.js'][31]++;
+    v.label = "\u4eca\u5e74";
+  }
+}));
+  _$jscoverage['./demo/hello.js'][34]++;
+  return data;
+}
+_$jscoverage['./demo/hello.js'].source = ["var HELLO = ['o','l','l','e','h'];","var DB // = require('some db');","","exports.hello = function(){","  return HELLO.reverse().join('');","};","","exports.msg = function(){","  return '@gmm:Tonight go party,I\\'m a sexy girl.I sometimes good sometimes bad&#65292;this is me,you don\\'t like me you can get out&#65281;';","};","","exports.translate = function(){","  return '@&#28909;&#24515;&#32593;&#21451;&#32763;&#35793;&#65306;&#23376;&#26102;&#36235;&#20826;&#37096;&#65292;&#22974;&#26412;&#26159;&#24615;&#22900;&#65307;&#38388;&#25110;&#26377;&#33391;&#36816;&#65292;&#38388;&#25110;&#33402;&#31245;&#30095;&#65307;&#26412;&#33394;&#26041;&#26159;&#25105;&#65292;&#20219;&#21531;&#26469;&#21435;&#22914;&#12290;'","};","","exports.save = function(name,cb){","  DB.save(name,function(err,data){","    if(err){","      err = new Error('db save error!!!');","    }else{","      data = process(data);","    }","    cb(err,data);","  });","}","","function process(data){","console.log(data);","  data.forEach(function(v,i,a){","    if(v.date &gt;= '2012-01-01'){","      v.label = '&#20170;&#24180;'","    }","  });","  return data;","}",""];

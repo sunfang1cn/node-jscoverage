@@ -15,7 +15,7 @@ var content = 'function test(a,b){\
     return b;\
   }\
 }';
-var processContent = jsc.process(content);
+var processContent = jsc.process('test_demo',content);
 console.log('=== processContent ===');
 console.log(processContent);
 console.log('');

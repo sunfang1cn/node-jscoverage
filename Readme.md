@@ -50,7 +50,10 @@
          path: the file to process
          encode: the charset of the file or content , encode: utf-8,gbk
 
-      jscoverage.process(content, encode): process content input, will return the results
+      jscoverage.process(filename, content, encode): process content input, will return the results
+         filename: this param is needed for _$jscoverage[filename], it is used as a key name.
+         content: script content,string type
+         encode: input content encode
 
       jscoverage.processDir(source_path, dest_path, exclude, exclude_file, options): process every js file in a dir
          source_path: the dir to process, support relative path
