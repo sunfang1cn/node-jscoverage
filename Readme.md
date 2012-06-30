@@ -48,19 +48,22 @@
 
       jscoverage.processFile(path, encode): process single file, will return the process results
          path: the file to process
-         encode: the charset of the file or content
+         encode: the charset of the file or content , encode: utf-8,gbk
 
       jscoverage.process(content, encode): process content input, will return the results
 
       jscoverage.processDir(source_path, dest_path, exclude, exclude_file, options): process every js file in a dir
-         source_path: the dir to process
+         source_path: the dir to process, support relative path
          dest_path: the output dir to put result files
-         exclude: the dir to exclude
-         exclude_file: the file to exclude
+         exclude: the dir to exclude, like '.svn|.git'
+         exclude_file: the file to exclude '.npmignore|.vimrc'
+         options: {}
 
-      jscoverage.require(module, flag): automatic process when flag is true, will mock the node.js`s require
-
+      jscoverage.require(module): automatic process when flag is true, will mock the node.js`s require
+         return the mocked require function ,which call as : 
+            var mod = require(path,isInstrument);
       jscoverage.coverage(): show coverage rate on console
+         you can custom this function to make your own coverage report!
       
 ## test private functions in a module
 
