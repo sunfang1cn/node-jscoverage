@@ -64,6 +64,7 @@
             var mod = require(path,isInstrument);
       jscoverage.coverage(): show coverage rate on console
          you can custom this function to make your own coverage report!
+   
       
 ## test private functions in a module
 
@@ -78,5 +79,25 @@
       test_mo._test('inner',[1,2]); // test private function inner
       var inner = test_mo._get('inner');
       inner(1,2); // call the private inner function of the mo module 
+
+## extend API 
+   
+      InstrumentedMod._test(funcName,args);
+         test inner functions
+      InstrumentedMod._call(funcName,args);
+         same as _test
+      InstrumentedMod._replace(objName,value);
+         replace the inner object
+      InstrumentedMod._get(objName);
+         get the inner object;
       
+      jsc.config(opt);
+         you can re-defined the above extend api by call this config function
+         opt has properties:
+            call:
+            test:
+            get:
+            replace:
+            
+      jsc will test if your module is conflict with this inject functions , it is save!
 
