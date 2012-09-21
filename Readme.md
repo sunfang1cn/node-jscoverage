@@ -93,6 +93,8 @@
          replace the inner object
       InstrumentedMod._get(objName);
          get the inner object;
+      InstrumentedMod._reset(objName);
+         rollback the object replace by InstrumentedMod._replace();
       
       jsc.config(opt);
          you can re-defined the above extend api by call this config function
@@ -101,6 +103,7 @@
             test:
             get:
             replace:
+            reset:
             
       jsc will test if your module is conflict with this inject functions , it is save!
 

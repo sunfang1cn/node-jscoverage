@@ -143,7 +143,7 @@ exports.mock = exports.require = function(mo) {
             eval(name+"="+stringify(obj))\
           };\
           module.exports.' + _reset + ' = function(name){\
-            eval( name + " = $$_123_$$[\\\"" + name + "\\\"];");\
+            eval( "if($$_123_$$[\\\"" + name + "\\\"] !== undefined)"+name + " = $$_123_$$[\\\"" + name + "\\\"];");\
           };\
           module.exports.'+_call+' = module.exports.'+_test+' = function(func,args){\
             var f,o;\
@@ -309,13 +309,41 @@ exports.coverage = function() {
       }
     }
     console.log(
-      "  [JS Coverage] " +
+      "[JSCOVERAGE] " +
       file + ":" + 
       (total ? (((touched / total)*100).toFixed(2) + '%') : "Not prepared!!!") 
     );
   }
-  console.log("\n  --EOF--\n");
 };
+exports.coverageDetail = function(){
+  var file;
+  var tmp;
+  var source;
+  var total;
+  var touched;
+  for (var i in _$jscoverage) {
+    file = i;
+    tmp = _$jscoverage[i];
+    source = _$jscoverage[i].source;
+    total = touched = 0;
+    var flag_white = true;
+    var _c = false;
+    console.log('[JSCOVERAGE]',file);
+    console.log('=============== uncovered code =====================');
+    for (var n=1,len = source.length; n <= len ; n++){
+      if (tmp[n] === 0) {
+        console.log(n,'\t:',source[n-1]);
+        _c = true;
+        flag_white = false;
+      }else{
+        if(!flag_white) console.log('\t');
+        flag_white = true;
+      }
+    }
+    if(!_c) console.log(' 100% covered');
+    console.log("=== EOF ===");
+  }
+}
 
 /**
  config the inject function

@@ -18,3 +18,8 @@ describe("jscoverage",function(){
     expect(res).to.be('conn');
   });
 });
+
+process.on('exit',function(){
+  jsc.coverage();
+  jsc.coverageDetail();
+});
