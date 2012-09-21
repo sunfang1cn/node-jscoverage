@@ -89,7 +89,7 @@ exports.enableModuleCache = false;
  * require module, instead of the node require().
  * @param  {Object} mo module object.
  */
-exports.mock = exports.require = function(mo) {
+exports.require = function(mo) {
   var _old_require = Module.prototype.require;
   Module.prototype.require = function(filename, needjsc) {
     if (!needjsc) {
@@ -125,7 +125,6 @@ exports.mock = exports.require = function(mo) {
     var _test = _inject_functions['test'];
     var _get = _inject_functions['get'];
     var _replace = _inject_functions['replace'];
-    var _reset = _inject_functions['reset'];
     // remove shebang
     content = content.replace(/^\#\!.*/, '');
     
@@ -133,17 +132,12 @@ exports.mock = exports.require = function(mo) {
       content = exports.processFile(filename,'utf-8');
       // inject exports: _test(func,params) ,_get(func) 
       content += '\n\
-        var $$_123_$$ = {};\
-        if( module.exports.'+_call+' || module.exports.'+_test+' || module.exports.'+_get+' || module.exports.'+_replace+' || module.exports.'+_reset+' ){\
+        if( module.exports.'+_call+' || module.exports.'+_test+' || module.exports.'+_get+' || module.exports.'+_replace+' ){\
           console.log("[WARN] jscoverage call not inject function for this module,because the function is exists! using jsc.config({inject:{}})");\
         }else{\
           module.exports.' + _replace + ' = function(name,obj){\
             function stringify(obj){if(obj === null) return \'null\';if(obj === undefined ) return \'undefined\';if(!obj && isNaN(obj)) return \'NaN\';if(typeof obj == \'string\'){return \'"\'+obj.replace(/"/g,\'\\"\') + \'"\';}if(typeof obj == \'Number\'){return obj;}if(obj.constructor == Date){return \'new Date(\'+obj.getTime()+\')\';}if(obj.constructor == Function){return obj.toString();}var is_array     = obj.constructor == Array ? true : false;var res;if(is_array){res = [\'[\'];for( var i = 0 ; i < obj.length ; i++ ){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\']\');    }else{res = [\'{\'];for(var i in obj){res.push( i + \':\' +  stringify(obj[i]));res.push(\',\');}res.pop();res.push(\'}\');}return res.join(\'\');}\
-            $$_123_$$[name] = eval(name);\
             eval(name+"="+stringify(obj))\
-          };\
-          module.exports.' + _reset + ' = function(name){\
-            eval( name + " = $$_123_$$[\\\"" + name + "\\\"];");\
           };\
           module.exports.'+_call+' = module.exports.'+_test+' = function(func,args){\
             var f,o;\
@@ -162,7 +156,6 @@ exports.mock = exports.require = function(mo) {
           return eval(objstr);\
           };\
         }';
-
     }
 
 
@@ -324,8 +317,7 @@ var _inject_functions = {
   get : '_get',
   replace : '_replace',
   test : '_test',
-  call : '_call',
-  reset : '_reset'
+  call : '_call'
 };
 exports.config = function(obj){
   for(var i in obj.inject){
