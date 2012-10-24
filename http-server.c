@@ -153,6 +153,7 @@ void HTTPServer_run(const char * ip_address, uint16_t port, HTTPServerHandler ha
   setsockopt(server->s, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof(optval));
 
   struct sockaddr_in a;
+  bzero(&a, sizeof(a));
   a.sin_family = AF_INET;
   a.sin_port = htons(server->port);
   if (server->ip_address == NULL) {
